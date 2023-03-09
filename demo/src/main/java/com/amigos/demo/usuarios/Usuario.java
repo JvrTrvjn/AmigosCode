@@ -1,6 +1,22 @@
 package com.amigos.demo.usuarios;
 
+import jakarta.persistence.*;
+
+import java.io.Serializable;
+
+@Entity
+@Table
 public class Usuario {
+    @Id
+    @SequenceGenerator(
+            name = "usuario_sequence",
+            sequenceName = "usuario_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "usuario_sequence"
+    )
     private Long id;
     private String name;
     private String dni;
@@ -18,6 +34,9 @@ public class Usuario {
         this.name = name;
         this.dni = dni;
         this.email = email;
+    }
+
+    public Usuario() {
     }
 
     public Long getId() {
