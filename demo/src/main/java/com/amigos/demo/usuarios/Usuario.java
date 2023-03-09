@@ -2,7 +2,9 @@ package com.amigos.demo.usuarios;
 
 import jakarta.persistence.*;
 
-import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.Period;
+
 
 @Entity
 @Table
@@ -21,23 +23,31 @@ public class Usuario {
     private String name;
     private String dni;
     private String email;
+    private LocalDate dob;
 
+    @Transient //this field right here
+    // There is no need for you to be a column in our database(age will be calculated for us)
+    private Integer age;
 
-    public Usuario(Long id, String name, String dni, String email) {
+    public Usuario() {
+    }
+
+    public Usuario(Long id, String name, String dni, String email, LocalDate dob) {
         this.id = id;
         this.name = name;
         this.dni = dni;
         this.email = email;
+        this.dob = dob;
     }
 
-    public Usuario(String name, String dni, String email) {
+    public Usuario(String name, String dni, String email, LocalDate dob) {
         this.name = name;
         this.dni = dni;
         this.email = email;
+        this.dob = dob;
     }
 
-    public Usuario() {
-    }
+
 
     public Long getId() {
         return id;
@@ -71,6 +81,22 @@ public class Usuario {
         this.email = email;
     }
 
+    public LocalDate getDob() {
+        return dob;
+    }
+
+    public void setDob(LocalDate dob) {
+        this.dob = dob;
+    }
+
+    public Integer getAge() {
+        return Period.between(this.dob,LocalDate.now()).getYears();
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
     @Override
     public String toString() {
         return "Usuario{" +
@@ -78,6 +104,8 @@ public class Usuario {
                 ", name='" + name + '\'' +
                 ", dni='" + dni + '\'' +
                 ", email='" + email + '\'' +
+                ", dob=" + dob +
+                ", age=" + age +
                 '}';
     }
 }
